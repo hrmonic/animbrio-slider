@@ -1,0 +1,21 @@
+# Données et secrets
+data/
+.env
+.env.*
+!.env.example
+
+# Contenu client / migration privée
+packages/importers/
+fixtures/
+docs/handoff.md
+docs/hrmonic-revslider-analysis.md
+docs/fidelity-report.md
+
+# Build / IDE
+node_modules/
+dist/
+.next/
+.turbo/
+*.tsbuildinfo
+.DS_Store
+*.log

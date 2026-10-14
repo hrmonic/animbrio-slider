@@ -1,0 +1,27 @@
+{
+  "name": "animbrio-slider",
+  "private": true,
+  "description": "Open-source visual editor and React/Next.js player for animated sliders and hero sections",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hrmonic/animbrio-slider.git"
+  },
+  "keywords": [
+    "react",
+    "nextjs",
+    "slider",
+    "animation",
+    "visual-editor",
+    "hero-section",
+    "typescript"
+  ],
+  "packageManager": "pnpm@9.15.1",
+  "scripts": {
+    "dev": "pnpm --filter @animbrio/editor dev",
+    "dev:demo": "pnpm --filter @animbrio/integration-demo dev",
+    "build": "pnpm -r run build",
+    "test": "pnpm -r run test",
+    "lint": "pnpm -r run lint"
+  }
+}

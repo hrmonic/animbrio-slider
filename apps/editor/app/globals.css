@@ -1,0 +1,181 @@
+:root {
+  color-scheme: dark;
+  --bg: #0f1115;
+  --panel: #161a22;
+  --border: #2a3140;
+  --text: #e8ecf4;
+  --muted: #8b95a8;
+  --accent: #6c5ce7;
+  --accent-hover: #7d6ff0;
+  --danger: #e74c3c;
+  --success: #2ecc71;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+input,
+select,
+textarea {
+  font: inherit;
+  background: #1c2230;
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 6px 8px;
+}
+
+button,
+.ab-file {
+  background: #252b38;
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 6px 10px;
+}
+
+.ab-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.ab-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--panel);
+  flex-wrap: wrap;
+}
+.ab-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+.ab-left,
+.ab-right {
+  width: 260px;
+  border-color: var(--border);
+  border-style: solid;
+  background: var(--panel);
+  padding: 12px;
+  overflow: auto;
+}
+.ab-left {
+  border-right-width: 1px;
+}
+.ab-right {
+  width: 300px;
+  border-left-width: 1px;
+}
+.ab-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.ab-scene {
+  flex: 1;
+  overflow: auto;
+  padding: 24px;
+  display: flex;
+  justify-content: center;
+}
+.ab-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 4px;
+  background: transparent;
+}
+.ab-item-on {
+  background: #2d3548;
+}
+.ab-muted {
+  color: var(--muted);
+  font-size: 13px;
+}
+.ab-danger {
+  color: var(--danger);
+  font-size: 12px;
+}
+.ab-row {
+  display: flex;
+  gap: 4px;
+}
+h3 {
+  margin: 16px 0 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.ab-handle {
+  position: absolute;
+  border: 1px dashed transparent;
+  cursor: move;
+}
+.ab-handle-on {
+  border-color: var(--accent);
+}
+.ab-timeline {
+  border-top: 1px solid var(--border);
+  padding: 10px 16px;
+  background: var(--panel);
+  max-height: 220px;
+  overflow: auto;
+}
+.ab-timeline-head input {
+  width: 100%;
+  margin-top: 6px;
+}
+.ab-track {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+.ab-track-on {
+  background: #252b38;
+}
+.ab-track-name {
+  width: 120px;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ab-track-bar {
+  position: relative;
+  flex: 1;
+  height: 18px;
+  background: #1c2230;
+  border-radius: 4px;
+}
+.ab-kf {
+  position: absolute;
+  top: 2px;
+  width: 10px;
+  height: 14px;
+  padding: 0;
+  background: var(--accent);
+  transform: translateX(-50%);
+}
+.ab-file {
+  display: inline-block;
+  cursor: pointer;
+}
