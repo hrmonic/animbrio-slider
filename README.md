@@ -1,104 +1,112 @@
-# Animbrio Slider
+<p align="center"><img src="docs/assets/project-hero.svg" alt="Animbrio Slider — visual editor, animation timeline and React player" width="100%"></p>
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
-[![Node](https://img.shields.io/badge/node-%3E%3D20-brightgreen)](package.json)
-[![pnpm](https://img.shields.io/badge/pnpm-9.15+-orange)](package.json)
+<h1 align="center">Animbrio Slider</h1>
 
-**Animbrio Slider** is an open-source visual editor and **React / Next.js** player for animated sliders, hero sections, and timeline-driven scenes. One JSON schema, one animation engine, and a embeddable `ModulePlayer` you can drop into any site.
+<p align="center"><strong>Visual animation editor and embeddable React player</strong><br>Build an animated scene in the editor, publish a module and embed the player into a React application.</p>
 
+<p align="center"><a href="README.fr.md">Lire en français</a> · <a href="#overview">Overview</a> · <a href="#features">Capabilities</a> · <a href="#architecture">Architecture</a> · <a href="#start">Get started</a> · <a href="#quality">Quality</a> · <a href="#faq">FAQ</a> · <a href="#license">License</a></p>
+
+<p align="center"><a href="LICENSE"><img alt="Apache 2.0 License" src="https://img.shields.io/badge/license-Apache%202.0-475569"></a> <img alt="React and TypeScript" src="https://img.shields.io/badge/stack-React%20%2F%20TypeScript-475569"></p>
+
+<a id="overview"></a>
+## Overview
+
+**Animbrio Slider** is an open-source visual editor and React/Next.js renderer for animated hero sections, sliders and timeline-driven scenes. Its schema, animation engine and player are separated so the same scene document can be used for authoring and website playback.
+
+
+
+**Intended users :** Frontend developers, web creators and product teams.
+
+<a id="features"></a>
 ## Features
 
-- Visual editor with canvas, layers, responsive breakpoints, and keyframe timeline
-- Deterministic animation engine (same output in editor and production)
-- Published-only public API for headless sites
-- Parallax, scroll timeline, and reduced-motion support
-- Monorepo of typed TypeScript packages (`@animbrio/*`)
+| Capability | Purpose |
+| --- | --- |
+| **Visual editor** | Canvas, layers, properties and keyframe timeline. |
+| **Motion engine** | Deterministic scene evaluation at a requested point in time. |
+| **React player** | Reusable ModulePlayer and ModuleStatic components. |
+| **Project format** | Structured JSON schema validated with Zod. |
+| **Web interactions** | Parallax, scroll timeline helpers and reduced-motion considerations. |
+| **Publishing workflow** | Public API for published modules, separate from authoring endpoints. |
 
+<a id="architecture"></a>
+## Architecture
+
+The pnpm monorepo contains apps/editor (Next.js editor), apps/integration-demo (Next.js integration example) and reusable packages: schema, animation-engine, interaction-engine, renderer, editor-core and persistence. React and Next.js integration guides explain how to embed modules.
+
+<a id="start"></a>
 ## Quick start
 
-**Requirements:** Node.js 20+, [pnpm](https://pnpm.io/) 9.15+
+Node.js 20+ and pnpm 9.15+ are required. Install dependencies, build the schema package and start the editor. The editor is configured on http://localhost:3840 and the integration demo on http://localhost:3841.
+
+
 
 ```bash
 git clone https://github.com/hrmonic/animbrio-slider.git
 cd animbrio-slider
 pnpm install
 pnpm --filter @animbrio/schema build
-pnpm dev          # editor → http://localhost:3840
-pnpm dev:demo     # Next.js demo → http://localhost:3841
+pnpm dev
 ```
 
-Copy [`.env.example`](.env.example) to `apps/editor/.env.local` when you enable API keys or custom data paths.
 
-## Packages
 
-| Package | Role |
-|---------|------|
-| `@animbrio/schema` | Versioned project JSON (Zod) |
-| `@animbrio/animation-engine` | Time → layer render state |
-| `@animbrio/interaction-engine` | Parallax & scroll timeline helpers |
-| `@animbrio/renderer` | `ModulePlayer` / `ModuleStatic` (React) |
-| `@animbrio/editor-core` | Editor state, undo, scene operations |
-| `@animbrio/persistence` | File store, bundles, optional SQL adapter |
-| `apps/editor` | Next.js editor + REST API |
-| `apps/integration-demo` | Minimal Next.js embedding example |
+Copy .env.example into apps/editor/.env.local if configuring API keys or custom data locations. Use pnpm dev:demo for the integration example, and pnpm -r run test / pnpm -r run build for local checks.
 
-## Integrate in Next.js
+<a id="quality"></a>
+## Quality and limitations
 
-1. Add workspace packages (or published npm packages when available).
-2. Transpile internal packages in `next.config.ts` (see [docs/integration-nextjs.md](docs/integration-nextjs.md)).
-3. Publish a module from the editor, then fetch:
+The repository includes tests in selected packages and a GitHub Actions workflow that builds and tests specific packages. Passing those checks is not equivalent to a cross-browser visual or accessibility audit.
 
-   `GET /api/public/modules/:slug` → `{ module, media }`
 
-4. Render:
 
-```tsx
-import { ModulePlayer } from "@animbrio/renderer";
+### Limitations
 
-<ModulePlayer module={module} mediaById={mediaById} playing loop />
-```
+- No public hosted demo is linked from the repository metadata yet.
+- Runtime performance and reduced-motion accessibility should be evaluated in each web integration.
+- Workspace packages are not necessarily individually published to npm.
+- Review editor API key and access controls before exposing a self-hosted editor.
 
-See [apps/integration-demo](apps/integration-demo) and [docs/integration-nextjs.md](docs/integration-nextjs.md).
 
-## Integrate in React
 
-Use `@animbrio/renderer` on the client with a `Module` document and a `Record<string, MediaAsset>` for URLs. For SSR or first paint, use `ModuleStatic` (time = 0). Details: [docs/integration-react.md](docs/integration-react.md).
+### Planned improvements
 
-## Editor API (self-hosted)
+- Add authentic editor screenshots and scenes.
+- Expand E2E testing of editing and playback.
+- Document schema version stability and compatibility.
 
-| Endpoint | Description |
-|----------|-------------|
-| `GET/POST /api/projects` | List / create projects |
-| `PUT /api/projects/:id` | Save draft |
-| `GET /api/public/modules/:slug` | **Published** module only |
-| `POST /api/media/:projectId` | Upload media |
-| `GET /api/projects/:id/export` | Download project bundle |
-
-Optional headers: `x-animbrio-key`, `x-animbrio-role` (see `.env.example`).
-
-## Configuration
-
-| Variable | Purpose |
-|----------|---------|
-| `ANIMBRIO_DATA_DIR` | Project + media storage (default: `./data`) |
-| `ANIMBRIO_API_KEY` | Protect editor API |
-| `NEXT_PUBLIC_ANIMBRIO_API` | Editor base URL for embedding demos |
-
-## Development
-
-```bash
-pnpm -r run lint
-pnpm -r run test
-pnpm -r run build
-```
-
-## Documentation
+### Documentation
 
 - [Architecture](docs/architecture.md)
 - [Project JSON format](docs/project-format.md)
 - [Next.js integration](docs/integration-nextjs.md)
 - [React integration](docs/integration-react.md)
+- [Contribution](CONTRIBUTING.md)
 
+<a id="faq"></a>
+## Frequently asked questions
+
+### Can this render animations in React?
+
+Yes. The repository includes React renderer components and integration documentation.
+
+### Is WordPress required?
+
+No. The editor and example use Next.js.
+
+### Can published scenes be consumed separately?
+
+The editor documents a public-module API distinct from authoring endpoints.
+
+### Are packages available on npm?
+
+They are provided as workspace packages; third-party publication should be verified separately.
+
+<a id="license"></a>
 ## License
 
-Apache License 2.0 — see [LICENSE](LICENSE).
+Released under the [Apache License 2.0](LICENSE).
+
+
+
+**Maintainer :** [Réda Touzani (@hrmonic)](https://github.com/hrmonic).
